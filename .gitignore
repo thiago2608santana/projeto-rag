@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Ambiente virtual e caches de ferramentas
+.venv
+.ruff_cache/
+
+# Segredos e configuração local
+.env
+.env.*
+.streamlit/secrets.toml
+.claude/settings.local.json
+
+# Dados gerados ou privados do usuário
+data/documents/*
+!data/documents/.gitkeep
+data/manifest.json
+
+# Sistema operacional / editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
