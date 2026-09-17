@@ -39,7 +39,12 @@ PINECONE_API_KEY=pcsk_...
 Variáveis opcionais (com seus padrões): `OPENAI_EMBEDDING_MODEL=text-embedding-3-small`,
 `PINECONE_INDEX_NAME=rag-local`, `PINECONE_NAMESPACE=default`, `PINECONE_CLOUD=aws`,
 `PINECONE_REGION=us-east-1`, `CHUNK_SIZE=1024`, `CHUNK_OVERLAP=128`, `TOP_K=5`,
-`LLM_TEMPERATURE=0.1`.
+`LLM_TEMPERATURE=0.1`, `ALLOW_INDEX_RESET=false`.
+
+`ALLOW_INDEX_RESET=true` exibe a "Zona de perigo" na sidebar, que apaga o namespace
+e reindexa a partir de `data/documents/`. Use apenas localmente: num deploy essa pasta
+está vazia, e o reset destruiria o index sem como recuperar. Não inclua esta variável
+nos secrets do Streamlit Community Cloud.
 
 ## Uso
 

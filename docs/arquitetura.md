@@ -219,8 +219,9 @@ Constantes do módulo:
 | Item | O que faz |
 |---|---|
 | `_require(name)` | Lê uma variável de ambiente obrigatória; lança `RuntimeError` se ausente. |
-| `Settings` (dataclass, frozen) | Agrupa todos os parâmetros: chaves de API, modelos, index/namespace/cloud/region do Pinecone, chunking, `top_k`, `temperature` e caminhos locais. Cada campo é preenchido de uma variável de ambiente com default, exceto `OPENAI_API_KEY`, `PINECONE_API_KEY` e `OPENAI_MODEL_NAME`, que são obrigatórias. |
+| `Settings` (dataclass, frozen) | Agrupa todos os parâmetros: chaves de API, modelos, index/namespace/cloud/region do Pinecone, chunking, `top_k`, `temperature`, a flag `allow_index_reset` e caminhos locais. Cada campo é preenchido de uma variável de ambiente com default, exceto `OPENAI_API_KEY`, `PINECONE_API_KEY` e `OPENAI_MODEL_NAME`, que são obrigatórias. |
 | `Settings.embedding_dimension` (property) | Consulta `EMBEDDING_DIMENSIONS` para o modelo configurado; lança `ValueError` se desconhecido. |
+| `_env_flag(name, default=False)` | Lê uma variável de ambiente booleana (`1`/`true`/`yes`/`on`). Usada por `allow_index_reset`, que libera a reindexação destrutiva e fica desligada por padrão. |
 | `get_settings()` | Instancia `Settings` e cria `data/documents/` e a pasta do manifesto se não existirem. |
 
 ### 3.3 `rag/llm.py` — Modelos globais do LlamaIndex

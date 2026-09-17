@@ -53,6 +53,25 @@ EMBEDDING_DIMENSIONS: dict[str, int] = {
 SUPPORTED_EXTENSIONS = {".pdf", ".docx", ".txt", ".md", ".csv", ".json", ".html", ".pptx"}
 
 
+def _env_flag(name: str, default: bool = False) -> bool:
+    """Lê uma variável de ambiente booleana.
+
+    Aceita `1`, `true`, `yes` e `on` (sem diferenciar maiúsculas) como verdadeiro;
+    qualquer outro valor preenchido é falso.
+
+    Args:
+        name: Nome da variável de ambiente.
+        default: Valor usado quando a variável não está definida.
+
+    Returns:
+        O booleano correspondente.
+    """
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    return raw.strip().lower() in {"1", "true", "yes", "on"}
+
+
 def _require(name: str) -> str:
     """Lê uma variável de ambiente obrigatória.
 
@@ -120,6 +139,9 @@ class Settings:
     chunk_overlap: int = field(default_factory=lambda: int(os.getenv("CHUNK_OVERLAP", "128")))
     top_k: int = field(default_factory=lambda: int(os.getenv("TOP_K", "5")))
     temperature: float = field(default_factory=lambda: float(os.getenv("LLM_TEMPERATURE", "0.1")))
+
+    # Operações destrutivas: desligadas por padrão (ver ALLOW_INDEX_RESET no README).
+    allow_index_reset: bool = field(default_factory=lambda: _env_flag("ALLOW_INDEX_RESET"))
 
     # Pastas locais
     documents_dir: Path = field(default_factory=lambda: BASE_DIR / "data" / "documents")

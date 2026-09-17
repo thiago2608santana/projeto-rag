@@ -182,15 +182,20 @@ with st.sidebar:
             st.session_state.engine.reset()
         st.rerun()
 
-    with st.expander("Zona de perigo"):
-        st.caption("Apaga todos os vetores do namespace e o manifesto. Os arquivos locais são mantidos.")
-        if st.button("Reindexar tudo do zero", type="primary", use_container_width=True):
-            ingestor.reset()
-            with st.status("Reindexando…", expanded=True) as status:
-                ingestor.sync(progress=lambda m: st.write(m))
-                status.update(label="Reindexação concluída", state="complete", expanded=False)
-            st.session_state.pop("engine", None)
-            st.rerun()
+    # A reindexação apaga o namespace inteiro e o repovoa a partir da pasta local.
+    # Isso só é reversível onde os documentos originais existem em disco: num
+    # deploy a pasta vem vazia, então o reset destruiria o index sem recuperação.
+    # Por isso a seção fica oculta salvo opt-in explícito via ALLOW_INDEX_RESET.
+    if settings.allow_index_reset:
+        with st.expander("Zona de perigo"):
+            st.caption("Apaga todos os vetores do namespace e o manifesto. Os arquivos locais são mantidos.")
+            if st.button("Reindexar tudo do zero", type="primary", use_container_width=True):
+                ingestor.reset()
+                with st.status("Reindexando…", expanded=True) as status:
+                    ingestor.sync(progress=lambda m: st.write(m))
+                    status.update(label="Reindexação concluída", state="complete", expanded=False)
+                st.session_state.pop("engine", None)
+                st.rerun()
 
 
 # --------------------------------------------------------------------------- #
